@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_NAME="Lucarne"
+APP_NAME="Pastille"
 VERSION="${1:-1.0.0}"
 BUILD_DIR="build"
 DMG_NAME="${APP_NAME}-${VERSION}.dmg"

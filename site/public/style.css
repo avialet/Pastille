@@ -95,9 +95,45 @@ a {
     letter-spacing: -0.02em;
 }
 
-.nav-icon {
-    font-size: 1.3rem;
-    color: var(--vermillon);
+.nav-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+}
+
+.nav-icon-glow {
+    position: absolute;
+    inset: -4px;
+    border-radius: 8px;
+    background: radial-gradient(circle, var(--vermillon-glow), transparent 70%);
+    filter: blur(8px);
+    opacity: 0.6;
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 0.8; transform: scale(1.15); }
+}
+
+.nav-icon-svg {
+    position: relative;
+    z-index: 1;
+    animation: logoFloat 4s ease-in-out infinite, logoDash 8s linear infinite;
+    filter: drop-shadow(0 0 4px var(--vermillon-glow));
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-1px) rotate(0.5deg); }
+    75% { transform: translateY(1px) rotate(-0.5deg); }
+}
+
+@keyframes logoDash {
+    to { stroke-dashoffset: -42; }
 }
 
 .nav-links {
@@ -270,8 +306,8 @@ a {
 .screen-line.w40 { width: 40%; }
 .screen-line.w70 { width: 70%; }
 
-/* Lucarne flottante */
-.hero-lucarne {
+/* Pastille flottante */
+.hero-pastille {
     position: absolute;
     bottom: -20px;
     right: -40px;
@@ -281,7 +317,7 @@ a {
     opacity: 0;
 }
 
-.lucarne-border {
+.pastille-border {
     position: absolute;
     inset: -4px;
     border-radius: 14px;
@@ -297,7 +333,7 @@ a {
     filter: blur(0.5px);
 }
 
-.lucarne-border::after {
+.pastille-border::after {
     content: '';
     position: absolute;
     inset: -8px;
@@ -317,7 +353,7 @@ a {
     to { rotate: 360deg; }
 }
 
-.lucarne-content {
+.pastille-content {
     position: absolute;
     inset: 3px;
     border-radius: 11px;
@@ -328,7 +364,7 @@ a {
     overflow: hidden;
 }
 
-.lucarne-play {
+.pastille-play {
     font-size: 1.6rem;
     opacity: 0.5;
     color: var(--vermillon-clair);
@@ -736,7 +772,7 @@ a {
         height: 200px;
     }
 
-    .hero-lucarne {
+    .hero-pastille {
         width: 120px;
         height: 75px;
         right: -20px;
@@ -762,19 +798,4 @@ a {
 /* ============================================
    Animation helpers (GSAP targets)
    ============================================ */
-.feature-card,
-.step,
-.download-card {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.hero-content {
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-.hero-visual {
-    opacity: 0;
-    transform: scale(0.95);
-}
+/* Les états initiaux sont gérés par gsap.set() dans script.js */

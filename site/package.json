@@ -1,7 +1,7 @@
 {
-  "name": "lucarne-site",
+  "name": "pastille-site",
   "version": "1.0.0",
-  "description": "Site web de Lucarne — Picture-in-Picture pour macOS",
+  "description": "Site web de Pastille — Picture-in-Picture pour macOS",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

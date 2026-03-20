@@ -24,7 +24,7 @@ struct OnboardingView: View {
                 .font(.headline)
                 .multilineTextAlignment(.center)
 
-            Text("Pour capturer une zone de votre écran et la transformer en vignette flottante, Lucarne nécessite la permission d'enregistrement d'écran.")
+            Text("Pour capturer une zone de votre écran et la transformer en vignette flottante, Pastille nécessite la permission d'enregistrement d'écran.")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

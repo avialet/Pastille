@@ -1,19 +1,19 @@
 import Cocoa
 import Combine
 
-enum LucarneState {
+enum PastilleState {
     case idle
     case selectionMode
     case active
 }
 
-class LucarneManager: ObservableObject {
-    @Published var state: LucarneState = .idle
+class PastilleManager: ObservableObject {
+    @Published var state: PastilleState = .idle
 
     private weak var appDelegate: AppDelegate?
     private var selectionOverlay: SelectionOverlay?
     private var captureLoop: CaptureLoopManager?
-    private var lucarnePanel: LucarnePanel?
+    private var pastillePanel: PastillePanel?
 
     init(appDelegate: AppDelegate) {
         self.appDelegate = appDelegate
@@ -28,7 +28,7 @@ class LucarneManager: ObservableObject {
         case .selectionMode:
             cancelSelection()
         case .active:
-            closeActiveLucarne()
+            closeActivePastille()
         }
     }
 
@@ -44,7 +44,7 @@ class LucarneManager: ObservableObject {
             self.selectionOverlay = nil
 
             if let rect = rect {
-                self.createLucarne(for: rect)
+                self.createPastille(for: rect)
             } else {
                 self.state = .idle
             }
@@ -58,7 +58,7 @@ class LucarneManager: ObservableObject {
         state = .idle
     }
 
-    func createLucarne(for rect: CGRect) {
+    func createPastille(for rect: CGRect) {
         let captureLoop: CaptureLoopManager
 
         // Chercher la fenêtre sous la sélection pour s'y accrocher
@@ -81,13 +81,13 @@ class LucarneManager: ObservableObject {
         }
         self.captureLoop = captureLoop
 
-        let panel = LucarnePanel(
+        let panel = PastillePanel(
             captureRect: rect,
             captureLoop: captureLoop
         ) { [weak self] in
-            self?.closeActiveLucarne()
+            self?.closeActivePastille()
         }
-        self.lucarnePanel = panel
+        self.pastillePanel = panel
 
         captureLoop.start()
         panel.show()
@@ -96,11 +96,11 @@ class LucarneManager: ObservableObject {
         appDelegate?.updateMenu()
     }
 
-    func closeActiveLucarne() {
+    func closeActivePastille() {
         captureLoop?.stop()
         captureLoop = nil
-        lucarnePanel?.close()
-        lucarnePanel = nil
+        pastillePanel?.close()
+        pastillePanel = nil
         state = .idle
         appDelegate?.updateMenu()
     }

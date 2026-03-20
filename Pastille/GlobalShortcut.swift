@@ -12,7 +12,7 @@ class GlobalShortcut {
         GlobalShortcut.onTrigger = callback
 
         let hotKeyID = EventHotKeyID(
-            signature: OSType(0x4C554341), // "LUCA"
+            signature: OSType(0x50415354), // "PAST"
             id: 1
         )
 

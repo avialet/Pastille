@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucarne — Picture-in-Picture pour macOS</title>
+    <title>Pastille — Picture-in-Picture pour macOS</title>
     <meta name="description" content="Détachez n'importe quelle zone de votre écran en vignette flottante. Gardez un œil sur vos vidéos, barres de progression et chats pendant que vous travaillez.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,8 +15,24 @@
     <nav class="navbar" id="navbar">
         <div class="nav-content">
             <a href="#" class="nav-logo">
-                <span class="nav-icon">⊡</span>
-                Lucarne
+                <span class="nav-icon-wrap">
+                    <span class="nav-icon-glow"></span>
+                    <svg class="nav-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <rect x="2" y="2" width="20" height="20" rx="4" stroke="url(#pastille-grad)" stroke-width="2.2" stroke-dasharray="4 3"/>
+                        <rect x="7" y="7" width="10" height="10" rx="2" fill="url(#pastille-grad-fill)" opacity="0.25"/>
+                        <defs>
+                            <linearGradient id="pastille-grad" x1="0" y1="0" x2="24" y2="24">
+                                <stop offset="0%" stop-color="#F06E63"/>
+                                <stop offset="100%" stop-color="#C0392B"/>
+                            </linearGradient>
+                            <linearGradient id="pastille-grad-fill" x1="0" y1="0" x2="24" y2="24">
+                                <stop offset="0%" stop-color="#F06E63"/>
+                                <stop offset="100%" stop-color="#E74C3C"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </span>
+                Pastille
             </a>
             <div class="nav-links">
                 <a href="#fonctionnalites">Fonctionnalités</a>
@@ -47,7 +63,7 @@
             </div>
         </div>
 
-        <!-- Animation : Lucarne flottante simulée -->
+        <!-- Animation : Pastille flottante simulée -->
         <div class="hero-visual">
             <div class="hero-screen">
                 <div class="screen-toolbar">
@@ -64,10 +80,10 @@
                 </div>
             </div>
             <!-- Vignette flottante avec bordure morphing -->
-            <div class="hero-lucarne">
-                <div class="lucarne-border"></div>
-                <div class="lucarne-content">
-                    <div class="lucarne-play">▶</div>
+            <div class="hero-pastille">
+                <div class="pastille-border"></div>
+                <div class="pastille-content">
+                    <div class="pastille-play">▶</div>
                 </div>
             </div>
             <!-- Selection rectangle -->
@@ -90,7 +106,7 @@
             <div class="feature-card">
                 <span class="feature-icon">🖥️</span>
                 <h3>Capture intelligente</h3>
-                <p>Sélectionnez n'importe quelle zone de votre écran. Lucarne identifie automatiquement la fenêtre et s'y accroche.</p>
+                <p>Sélectionnez n'importe quelle zone de votre écran. Pastille identifie automatiquement la fenêtre et s'y accroche.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">📌</span>
@@ -100,12 +116,12 @@
             <div class="feature-card">
                 <span class="feature-icon">👆</span>
                 <h3>Transparente aux clics</h3>
-                <p>Cliquez à travers la Lucarne pour interagir avec ce qui se trouve derrière. Aucune gêne dans votre workflow.</p>
+                <p>Cliquez à travers la Pastille pour interagir avec ce qui se trouve derrière. Aucune gêne dans votre workflow.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🎯</span>
                 <h3>Suit la fenêtre</h3>
-                <p>Capturée sur une vidéo YouTube ? Même si vous changez d'onglet, la Lucarne garde le contenu original.</p>
+                <p>Capturée sur une vidéo YouTube ? Même si vous changez d'onglet, la Pastille garde le contenu original.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">⌨️</span>
@@ -164,7 +180,7 @@
                     </div>
                 </div>
                 <h3>C'est prêt</h3>
-                <p>Votre Lucarne apparaît. Elle flotte, suit le contenu, et ne gêne jamais votre travail.</p>
+                <p>Votre Pastille apparaît. Elle flotte, suit le contenu, et ne gêne jamais votre travail.</p>
             </div>
         </div>
     </section>
@@ -175,9 +191,9 @@
             <div class="download-glow"></div>
             <div class="download-content">
                 <span class="download-icon">⊡</span>
-                <h2>Télécharger Lucarne</h2>
+                <h2>Télécharger Pastille</h2>
                 <p>Gratuit. Sans compte. Sans tracking. Juste un .dmg à glisser dans Applications.</p>
-                <a href="/download/Lucarne-1.0.0.dmg" class="btn btn-primary btn-large magnetic-btn">
+                <a href="/download/Pastille-1.0.0.dmg" class="btn btn-primary btn-large magnetic-btn">
                     <span>Télécharger le DMG</span>
                     <span class="btn-icon">↓</span>
                 </a>
@@ -197,7 +213,7 @@
         <div class="support-card">
             <span class="support-icon">🎁</span>
             <h2>Un petit geste ?</h2>
-            <p>Lucarne est gratuit et le restera. Si l'app vous plaît et que l'envie se fait sentir, vous pouvez jeter un œil à ma liste de souhaits Amazon. Rien d'obligatoire, juste un moyen sympa de soutenir le projet.</p>
+            <p>Pastille est gratuit et le restera. Si l'app vous plaît et que l'envie se fait sentir, vous pouvez jeter un œil à ma liste de souhaits Amazon. Rien d'obligatoire, juste un moyen sympa de soutenir le projet.</p>
             <a href="https://www.amazon.fr/registries/gl/guest-view/3EQGMKFGHSYAL?ref_=cm_sw_r_cp_ud_ggr-subnav-share_GMMDC9PF5FZS01KSSZ41" target="_blank" rel="noopener noreferrer" class="btn btn-support magnetic-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -210,7 +226,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <span class="footer-logo gradient-text">Lucarne</span>
+            <span class="footer-logo gradient-text">Pastille</span>
             <p>Picture-in-Picture pour macOS</p>
         </div>
     </footer>

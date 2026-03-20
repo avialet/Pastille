@@ -4,7 +4,7 @@ import Combine
 
 // MARK: - NSPanel custom (ne vole jamais le focus)
 
-class LucarneNSPanel: NSPanel {
+class PastilleNSPanel: NSPanel {
     override var canBecomeKey: Bool { false }
     override var canBecomeMain: Bool { false }
 }
@@ -12,13 +12,13 @@ class LucarneNSPanel: NSPanel {
 // MARK: - Notification pour le hover
 
 extension Notification.Name {
-    static let lucarneHoverChanged = Notification.Name("lucarneHoverChanged")
+    static let pastilleHoverChanged = Notification.Name("pastilleHoverChanged")
 }
 
 // MARK: - Gestionnaire du panel flottant
 
-class LucarnePanel {
-    private var panel: LucarneNSPanel?
+class PastillePanel {
+    private var panel: PastilleNSPanel?
     private var mouseGlobalMonitor: Any?
     private var mouseLocalMonitor: Any?
     private let captureRect: CGRect
@@ -43,7 +43,7 @@ class LucarnePanel {
         let panelX = screen.visibleFrame.maxX - panelWidth - 20
         let panelY = screen.visibleFrame.minY + 20
 
-        let panel = LucarneNSPanel(
+        let panel = PastilleNSPanel(
             contentRect: NSRect(x: panelX, y: panelY, width: panelWidth, height: panelHeight),
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
@@ -57,7 +57,7 @@ class LucarnePanel {
         panel.isMovableByWindowBackground = true
         panel.collectionBehavior = [.canJoinAllSpaces, .stationary]
 
-        let contentView = LucarneContentView(
+        let contentView = PastilleContentView(
             captureLoop: captureLoop,
             onClose: { [weak self] in self?.onClose() }
         )
@@ -106,7 +106,7 @@ class LucarnePanel {
             isHovering = true
             panel.ignoresMouseEvents = false
             NotificationCenter.default.post(
-                name: .lucarneHoverChanged,
+                name: .pastilleHoverChanged,
                 object: nil,
                 userInfo: ["hovering": true]
             )
@@ -114,7 +114,7 @@ class LucarnePanel {
             isHovering = false
             panel.ignoresMouseEvents = true
             NotificationCenter.default.post(
-                name: .lucarneHoverChanged,
+                name: .pastilleHoverChanged,
                 object: nil,
                 userInfo: ["hovering": false]
             )

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LucarneContentView: View {
+struct PastilleContentView: View {
     @ObservedObject var captureLoop: CaptureLoopManager
     let onClose: () -> Void
 
@@ -51,7 +51,7 @@ struct LucarneContentView: View {
             }
         }
         .onReceive(
-            NotificationCenter.default.publisher(for: .lucarneHoverChanged)
+            NotificationCenter.default.publisher(for: .pastilleHoverChanged)
         ) { notification in
             if let hovering = notification.userInfo?["hovering"] as? Bool {
                 withAnimation(.easeInOut(duration: 0.2)) {

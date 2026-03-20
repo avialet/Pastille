@@ -3,12 +3,12 @@ import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
-    private(set) var manager: LucarneManager!
+    private(set) var manager: PastilleManager!
     private var onboardingWindow: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
-        manager = LucarneManager(appDelegate: self)
+        manager = PastilleManager(appDelegate: self)
         setupStatusBar()
 
         GlobalShortcut.shared.register { [weak self] in
@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         GlobalShortcut.shared.unregister()
-        manager.closeActiveLucarne()
+        manager.closeActivePastille()
     }
 
     // MARK: - Status Bar
@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem.button {
             button.image = NSImage(
                 systemSymbolName: "rectangle.dashed",
-                accessibilityDescription: "Lucarne"
+                accessibilityDescription: "Pastille"
             )
         }
         updateMenu()
@@ -47,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
 
         let captureItem = NSMenuItem(
-            title: "Capturer une Lucarne",
+            title: "Capturer une Pastille",
             action: #selector(toggleCapture),
             keyEquivalent: "l"
         )
@@ -57,8 +57,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if manager.state == .active {
             let closeItem = NSMenuItem(
-                title: "Fermer la Lucarne active",
-                action: #selector(closeLucarne),
+                title: "Fermer la Pastille active",
+                action: #selector(closePastille),
                 keyEquivalent: ""
             )
             closeItem.target = self
@@ -68,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
 
         let quitItem = NSMenuItem(
-            title: "Quitter Lucarne",
+            title: "Quitter Pastille",
             action: #selector(quitApp),
             keyEquivalent: "q"
         )
@@ -84,8 +84,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         manager.toggleCapture()
     }
 
-    @objc private func closeLucarne() {
-        manager.closeActiveLucarne()
+    @objc private func closePastille() {
+        manager.closeActivePastille()
     }
 
     @objc private func quitApp() {
@@ -109,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             defer: false
         )
         window.contentView = hostingView
-        window.title = "Lucarne"
+        window.title = "Pastille"
         window.center()
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)

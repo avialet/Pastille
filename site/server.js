@@ -7,11 +7,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(compression());
 
-// Cache statique longue durée pour les assets
+// Pas de cache en dev, long cache en prod
+const isDev = process.env.NODE_ENV !== 'production';
 app.use(express.static(path.join(__dirname, 'public'), {
-    maxAge: '1y',
+    maxAge: isDev ? 0 : '1y',
     setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.html')) {
+        if (filePath.endsWith('.html') || isDev) {
             res.setHeader('Cache-Control', 'no-cache');
         }
     }
@@ -30,5 +31,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Lucarne site running on http://localhost:${PORT}`);
+    console.log(`Pastille site running on http://localhost:${PORT}`);
 });

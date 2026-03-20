@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_NAME="Lucarne"
+APP_NAME="Pastille"
 VERSION="${1:-1.0.0}"
 BUILD_DIR="build"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
@@ -16,7 +16,7 @@ rm -rf "$BUILD_DIR"
 mkdir -p "$MACOS" "$RESOURCES"
 
 # Trouver tous les fichiers Swift
-SOURCES=$(find Lucarne -name "*.swift" | tr '\n' ' ')
+SOURCES=$(find Pastille -name "*.swift" | tr '\n' ' ')
 
 echo "   Sources: $(echo "$SOURCES" | wc -w | tr -d ' ') fichiers"
 
@@ -43,8 +43,8 @@ cp Resources/Info.plist "$CONTENTS/"
 xattr -cr "$APP_BUNDLE"
 
 # Signer avec les entitlements
-if [ -f Resources/Lucarne.entitlements ]; then
-    codesign --force --sign - --entitlements Resources/Lucarne.entitlements "$APP_BUNDLE"
+if [ -f Resources/Pastille.entitlements ]; then
+    codesign --force --sign - --entitlements Resources/Pastille.entitlements "$APP_BUNDLE"
 else
     codesign --force --sign - "$APP_BUNDLE"
 fi

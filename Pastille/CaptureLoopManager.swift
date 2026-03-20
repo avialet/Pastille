@@ -10,7 +10,7 @@ class CaptureLoopManager: ObservableObject {
     private let logicalSize: NSSize         // Taille logique pour l'affichage
     private var timer: DispatchSourceTimer?
 
-    /// Window number du panel Lucarne, pour l'exclure des captures
+    /// Window number du panel Pastille, pour l'exclure des captures
     var panelWindowNumber: Int = 0
 
     /// Initialisation avec capture liée à une fenêtre spécifique

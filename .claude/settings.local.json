@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git config:*)",
+      "Bash(gh auth:*)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh repo:*)",
+      "Bash(find Pastille -name \"*.swift\" -exec sed -i '' 's/Lucarne/Pastille/g; s/lucarne/pastille/g; s/0x4C554341/0x50415354/g; s/\"\"LUCA\"\"/\"\"PAST\"\"/g' {} +)",
+      "Bash(./build.sh 1.0.0)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

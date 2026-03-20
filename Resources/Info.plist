@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Lucarne</string>
+    <string>Pastille</string>
     <key>CFBundleDisplayName</key>
-    <string>Lucarne</string>
+    <string>Pastille</string>
     <key>CFBundleIdentifier</key>
-    <string>com.lucarne.app</string>
+    <string>com.pastille.app</string>
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
     <key>CFBundleExecutable</key>
-    <string>Lucarne</string>
+    <string>Pastille</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleInfoDictionaryVersion</key>
@@ -23,7 +23,7 @@
     <key>LSMinimumSystemVersion</key>
     <string>13.0</string>
     <key>NSScreenCaptureUsageDescription</key>
-    <string>Lucarne a besoin d'accéder à l'enregistrement d'écran pour capturer la zone sélectionnée et créer une vignette flottante.</string>
+    <string>Pastille a besoin d'accéder à l'enregistrement d'écran pour capturer la zone sélectionnée et créer une vignette flottante.</string>
     <key>NSHighResolutionCapable</key>
     <true/>
 </dict>
