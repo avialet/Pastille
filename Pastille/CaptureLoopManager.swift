@@ -4,14 +4,35 @@ import Combine
 class CaptureLoopManager: ObservableObject {
     @Published var currentImage: NSImage?
 
-    private let screenRect: CGRect          // Zone originale en coordonnées écran (fallback)
-    private let targetWindowID: CGWindowID  // Fenêtre cible (0 = capture écran brute)
-    private let relativeRect: CGRect        // Zone relative à la fenêtre cible
-    private let logicalSize: NSSize         // Taille logique pour l'affichage
+    private let screenRect: CGRect
+    private let targetWindowID: CGWindowID
+    private let relativeRect: CGRect
+    private let logicalSize: NSSize
     private var timer: DispatchSourceTimer?
 
-    /// Window number du panel Pastille, pour l'exclure des captures
+    /// Fréquence de rafraîchissement
+    static let availableFrameRates: [Int] = [5, 8, 10]
+    static let defaultFrameRate: Int = 10
+
+    static var currentFrameRate: Int {
+        get {
+            let stored = UserDefaults.standard.integer(forKey: "pastilleFrameRate")
+            return stored > 0 ? stored : defaultFrameRate
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "pastilleFrameRate")
+        }
+    }
+
     var panelWindowNumber: Int = 0
+
+    /// Cache des dimensions de la fenêtre cible (évite CGWindowListCopyWindowInfo à chaque frame)
+    private var cachedWindowSize: CGSize = .zero
+    private var cacheMissCount: Int = 0
+    private let cacheRefreshInterval: Int = 10  // Rafraîchir le cache toutes les N frames
+
+    /// Queue dédiée pour la capture (ne bloque pas le main thread)
+    private let captureQueue = DispatchQueue(label: "com.pastille.capture", qos: .userInitiated)
 
     /// Initialisation avec capture liée à une fenêtre spécifique
     init(screenRect: CGRect, windowID: CGWindowID, relativeRect: CGRect) {
@@ -21,7 +42,7 @@ class CaptureLoopManager: ObservableObject {
         self.logicalSize = NSSize(width: screenRect.width, height: screenRect.height)
     }
 
-    /// Fallback : capture d'une zone écran fixe (pas de fenêtre cible)
+    /// Fallback : capture d'une zone écran fixe
     init(rect: CGRect) {
         self.screenRect = rect
         self.targetWindowID = kCGNullWindowID
@@ -30,8 +51,14 @@ class CaptureLoopManager: ObservableObject {
     }
 
     func start() {
-        let timer = DispatchSource.makeTimerSource(queue: .main)
-        timer.schedule(deadline: .now(), repeating: 1.0 / 15.0)
+        // Pré-remplir le cache au démarrage
+        if targetWindowID != kCGNullWindowID, let bounds = queryWindowBounds() {
+            cachedWindowSize = bounds.size
+        }
+
+        let fps = CaptureLoopManager.currentFrameRate
+        let timer = DispatchSource.makeTimerSource(queue: captureQueue)
+        timer.schedule(deadline: .now(), repeating: 1.0 / Double(fps))
         timer.setEventHandler { [weak self] in
             self?.captureFrame()
         }
@@ -42,31 +69,56 @@ class CaptureLoopManager: ObservableObject {
     func stop() {
         timer?.cancel()
         timer = nil
-        currentImage = nil
+        DispatchQueue.main.async { [weak self] in
+            self?.currentImage = nil
+        }
+    }
+
+    func restartWithCurrentFrameRate() {
+        timer?.cancel()
+        timer = nil
+        start()
     }
 
     private func captureFrame() {
+        let image: NSImage?
         if targetWindowID != kCGNullWindowID {
-            captureTargetWindow()
+            image = captureTargetWindow()
         } else {
-            captureScreenRect()
+            image = captureScreenRect()
+        }
+
+        if let image = image {
+            DispatchQueue.main.async { [weak self] in
+                self?.currentImage = image
+            }
         }
     }
 
     // MARK: - Capture liée à une fenêtre
 
-    private func captureTargetWindow() {
-        // Capturer la fenêtre entière (suit la fenêtre même si elle bouge)
+    private func captureTargetWindow() -> NSImage? {
         guard let fullImage = CGWindowListCreateImage(
             .null,
             .optionIncludingWindow,
             targetWindowID,
-            [.bestResolution, .boundsIgnoreFraming]
-        ) else { return }
+            [.boundsIgnoreFraming]
+        ) else { return nil }
 
-        // Calculer le crop en pixels (image Retina = 2x la taille logique)
-        let scaleX = CGFloat(fullImage.width) / max(getWindowWidth(), 1)
-        let scaleY = CGFloat(fullImage.height) / max(getWindowHeight(), 1)
+        // Rafraîchir le cache périodiquement
+        cacheMissCount += 1
+        if cacheMissCount >= cacheRefreshInterval || cachedWindowSize == .zero {
+            cacheMissCount = 0
+            if let bounds = queryWindowBounds() {
+                cachedWindowSize = bounds.size
+            }
+        }
+
+        let winW = cachedWindowSize.width > 0 ? cachedWindowSize.width : relativeRect.width
+        let winH = cachedWindowSize.height > 0 ? cachedWindowSize.height : relativeRect.height
+
+        let scaleX = CGFloat(fullImage.width) / winW
+        let scaleY = CGFloat(fullImage.height) / winH
 
         let cropPixelRect = CGRect(
             x: relativeRect.origin.x * scaleX,
@@ -75,15 +127,13 @@ class CaptureLoopManager: ObservableObject {
             height: relativeRect.height * scaleY
         )
 
-        guard let croppedImage = fullImage.cropping(to: cropPixelRect) else { return }
-
-        let nsImage = NSImage(cgImage: croppedImage, size: logicalSize)
-        self.currentImage = nsImage
+        guard let croppedImage = fullImage.cropping(to: cropPixelRect) else { return nil }
+        return NSImage(cgImage: croppedImage, size: logicalSize)
     }
 
     // MARK: - Capture d'écran brute (fallback)
 
-    private func captureScreenRect() {
+    private func captureScreenRect() -> NSImage? {
         let windowID: CGWindowID
         let listOption: CGWindowListOption
 
@@ -99,25 +149,15 @@ class CaptureLoopManager: ObservableObject {
             screenRect,
             listOption,
             windowID,
-            [.bestResolution]
-        ) else { return }
+            []
+        ) else { return nil }
 
-        let nsImage = NSImage(cgImage: cgImage, size: logicalSize)
-        self.currentImage = nsImage
+        return NSImage(cgImage: cgImage, size: logicalSize)
     }
 
     // MARK: - Utilitaires
 
-    /// Récupère les dimensions actuelles de la fenêtre cible
-    private func getWindowWidth() -> CGFloat {
-        return getWindowBounds()?.width ?? relativeRect.width
-    }
-
-    private func getWindowHeight() -> CGFloat {
-        return getWindowBounds()?.height ?? relativeRect.height
-    }
-
-    private func getWindowBounds() -> CGRect? {
+    private func queryWindowBounds() -> CGRect? {
         guard let windowInfoList = CGWindowListCopyWindowInfo(
             .optionIncludingWindow, targetWindowID
         ) as? [[String: Any]],
@@ -135,7 +175,6 @@ class CaptureLoopManager: ObservableObject {
 
     // MARK: - Recherche de fenêtre sous la sélection
 
-    /// Trouve la fenêtre au premier plan sous le centre de la zone sélectionnée
     static func findWindow(at screenRect: CGRect) -> (windowID: CGWindowID, windowBounds: CGRect)? {
         let center = CGPoint(x: screenRect.midX, y: screenRect.midY)
         let myPID = ProcessInfo.processInfo.processIdentifier
@@ -145,16 +184,12 @@ class CaptureLoopManager: ObservableObject {
             kCGNullWindowID
         ) as? [[String: Any]] else { return nil }
 
-        // La liste est ordonnée front-to-back : la première qui contient le centre est la bonne
         for info in windowInfoList {
             guard let windowNumber = info[kCGWindowNumber as String] as? Int,
                   let ownerPID = info[kCGWindowOwnerPID as String] as? Int,
                   let boundsDict = info[kCGWindowBounds as String] as? NSDictionary else { continue }
 
-            // Ignorer nos propres fenêtres
             if ownerPID == Int(myPID) { continue }
-
-            // Ignorer les fenêtres de layer != 0 (éléments système comme la barre de menu)
             if let layer = info[kCGWindowLayer as String] as? Int, layer != 0 { continue }
 
             var bounds = CGRect.zero

@@ -178,6 +178,70 @@ a {
     z-index: 2;
 }
 
+/* Grande Pastille animée dans le hero (pointillés + glow organique) */
+.hero-pastille-icon {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: heroPastilleFloat 5s ease-in-out infinite;
+}
+
+.hero-pastille-glow {
+    position: absolute;
+    inset: -25px;
+    border-radius: 38px;
+    background: radial-gradient(circle, var(--vermillon-glow) 0%, transparent 65%);
+    animation: heroPastilleGlow 3.5s ease-in-out infinite;
+    opacity: 0.5;
+}
+
+.hero-pastille-ring {
+    position: absolute;
+    inset: 10px;
+    border-radius: 34px;
+    border: 1.5px solid var(--vermillon);
+    opacity: 0;
+    animation: heroPastilleRing 4.5s ease-out infinite;
+}
+
+.hero-pastille-ring-1 { animation-delay: 0s; }
+.hero-pastille-ring-2 { animation-delay: 2.25s; }
+
+.hero-pastille-svg {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-pastille-dash {
+    animation: heroPastilleDash 10s linear infinite;
+}
+
+@keyframes heroPastilleFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-7px) rotate(0.5deg); }
+    50% { transform: translateY(-3px) rotate(-0.3deg); }
+    75% { transform: translateY(-9px) rotate(0.3deg); }
+}
+
+@keyframes heroPastilleGlow {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.12); opacity: 0.65; }
+}
+
+@keyframes heroPastilleRing {
+    0% { opacity: 0.5; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes heroPastilleDash {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: 200; }
+}
+
 .hero-badge {
     display: inline-block;
     padding: 6px 16px;

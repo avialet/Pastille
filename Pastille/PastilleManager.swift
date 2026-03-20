@@ -96,6 +96,10 @@ class PastilleManager: ObservableObject {
         appDelegate?.updateMenu()
     }
 
+    func applyFrameRateChange() {
+        captureLoop?.restartWithCurrentFrameRate()
+    }
+
     func closeActivePastille() {
         captureLoop?.stop()
         captureLoop = nil

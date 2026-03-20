@@ -9,10 +9,11 @@ class PastilleNSPanel: NSPanel {
     override var canBecomeMain: Bool { false }
 }
 
-// MARK: - Notification pour le hover
+// MARK: - Notifications
 
 extension Notification.Name {
     static let pastilleHoverChanged = Notification.Name("pastilleHoverChanged")
+    static let pastilleResized = Notification.Name("pastilleResized")
 }
 
 // MARK: - Gestionnaire du panel flottant
@@ -21,10 +22,18 @@ class PastillePanel {
     private var panel: PastilleNSPanel?
     private var mouseGlobalMonitor: Any?
     private var mouseLocalMonitor: Any?
+    private var mouseDragMonitor: Any?
     private let captureRect: CGRect
     private let captureLoop: CaptureLoopManager
     private let onClose: () -> Void
     private var isHovering = false
+
+    /// Aspect ratio de la pastille (largeur / hauteur)
+    private var aspectRatio: CGFloat = 1.0
+    /// Drag resize state
+    private var isResizing = false
+    private var resizeStartMouseLocation: NSPoint = .zero
+    private var resizeStartFrame: NSRect = .zero
 
     init(captureRect: CGRect, captureLoop: CaptureLoopManager, onClose: @escaping () -> Void) {
         self.captureRect = captureRect
@@ -37,6 +46,7 @@ class PastillePanel {
         let scale: CGFloat = 0.5
         let panelWidth = captureRect.width * scale
         let panelHeight = captureRect.height * scale
+        self.aspectRatio = panelWidth / panelHeight
 
         // Positionner en bas à droite de l'écran
         guard let screen = NSScreen.main else { return }
@@ -59,7 +69,10 @@ class PastillePanel {
 
         let contentView = PastilleContentView(
             captureLoop: captureLoop,
-            onClose: { [weak self] in self?.onClose() }
+            onClose: { [weak self] in self?.onClose() },
+            onResizeDrag: { [weak self] phase, location in
+                self?.handleResizeDrag(phase: phase, location: location)
+            }
         )
         let hostingView = NSHostingView(rootView: contentView)
         hostingView.frame = NSRect(x: 0, y: 0, width: panelWidth, height: panelHeight)
@@ -82,6 +95,48 @@ class PastillePanel {
         setupMouseMonitors()
     }
 
+    // MARK: - Resize homothétique
+
+    private func handleResizeDrag(phase: ResizeDragPhase, location: NSPoint) {
+        guard let panel = self.panel else { return }
+
+        switch phase {
+        case .began:
+            isResizing = true
+            resizeStartMouseLocation = NSEvent.mouseLocation
+            resizeStartFrame = panel.frame
+            // Désactiver le déplacement pendant le resize
+            panel.isMovableByWindowBackground = false
+
+        case .changed:
+            let currentMouse = NSEvent.mouseLocation
+            // Le delta horizontal détermine le scale (drag vers la droite = agrandir)
+            let deltaX = currentMouse.x - resizeStartMouseLocation.x
+            // Aussi prendre en compte le delta vertical (vers le bas en écran = négatif en AppKit)
+            let deltaY = -(currentMouse.y - resizeStartMouseLocation.y)
+            // Prendre le delta le plus grand en valeur absolue
+            let delta = abs(deltaX) > abs(deltaY) ? deltaX : deltaY
+
+            let newWidth = max(80, resizeStartFrame.width + delta)
+            let newHeight = newWidth / aspectRatio
+
+            // Garder le coin supérieur gauche fixe (en coordonnées AppKit = coin inférieur gauche)
+            let originY = resizeStartFrame.origin.y + resizeStartFrame.height - newHeight
+            let newFrame = NSRect(
+                x: resizeStartFrame.origin.x,
+                y: originY,
+                width: newWidth,
+                height: newHeight
+            )
+            panel.setFrame(newFrame, display: true)
+            panel.contentView?.frame = NSRect(x: 0, y: 0, width: newWidth, height: newHeight)
+
+        case .ended:
+            isResizing = false
+            panel.isMovableByWindowBackground = true
+        }
+    }
+
     // MARK: - Hover detection
 
     private func setupMouseMonitors() {
@@ -98,7 +153,7 @@ class PastillePanel {
     }
 
     private func checkMousePosition() {
-        guard let panel = self.panel else { return }
+        guard let panel = self.panel, !isResizing else { return }
         let mouseLocation = NSEvent.mouseLocation
         let isInside = panel.frame.contains(mouseLocation)
 
@@ -135,4 +190,10 @@ class PastillePanel {
         panel?.orderOut(nil)
         panel = nil
     }
+}
+
+// MARK: - Phase de drag resize
+
+enum ResizeDragPhase {
+    case began, changed, ended
 }

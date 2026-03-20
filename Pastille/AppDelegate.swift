@@ -67,6 +67,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
 
+        // Sous-menu Fréquence de rafraîchissement
+        let fpsItem = NSMenuItem(title: "Images par seconde", action: nil, keyEquivalent: "")
+        let fpsSubmenu = NSMenu()
+        let currentFPS = CaptureLoopManager.currentFrameRate
+
+        for fps in CaptureLoopManager.availableFrameRates {
+            let item = NSMenuItem(
+                title: "\(fps) FPS",
+                action: #selector(setFrameRate(_:)),
+                keyEquivalent: ""
+            )
+            item.target = self
+            item.tag = fps
+            if fps == currentFPS {
+                item.state = .on
+            }
+            fpsSubmenu.addItem(item)
+        }
+        fpsItem.submenu = fpsSubmenu
+        menu.addItem(fpsItem)
+
+        menu.addItem(NSMenuItem.separator())
+
         let quitItem = NSMenuItem(
             title: "Quitter Pastille",
             action: #selector(quitApp),
@@ -86,6 +109,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func closePastille() {
         manager.closeActivePastille()
+    }
+
+    @objc private func setFrameRate(_ sender: NSMenuItem) {
+        CaptureLoopManager.currentFrameRate = sender.tag
+        // Appliquer immédiatement si une pastille est active
+        manager.applyFrameRateChange()
+        updateMenu()
     }
 
     @objc private func quitApp() {

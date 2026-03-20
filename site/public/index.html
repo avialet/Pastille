@@ -45,7 +45,26 @@
     <!-- Hero -->
     <section class="hero" id="hero">
         <div class="hero-content">
-            <div class="hero-badge">Picture-in-Picture pour macOS</div>
+            <!-- Grande Pastille animée (pointillés + glow) -->
+            <div class="hero-pastille-icon">
+                <div class="hero-pastille-glow"></div>
+                <div class="hero-pastille-ring hero-pastille-ring-1"></div>
+                <div class="hero-pastille-ring hero-pastille-ring-2"></div>
+                <svg class="hero-pastille-svg" width="180" height="180" viewBox="0 0 180 180" fill="none">
+                    <defs>
+                        <linearGradient id="hero-grad" x1="0" y1="0" x2="180" y2="180">
+                            <stop offset="0%" stop-color="#F06E63"/>
+                            <stop offset="100%" stop-color="#C0392B"/>
+                        </linearGradient>
+                        <linearGradient id="hero-grad-fill" x1="0" y1="0" x2="180" y2="180">
+                            <stop offset="0%" stop-color="#F06E63"/>
+                            <stop offset="100%" stop-color="#E74C3C"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="15" y="15" width="150" height="150" rx="30" stroke="url(#hero-grad)" stroke-width="3.5" stroke-dasharray="12 8" fill="none" class="hero-pastille-dash"/>
+                    <rect x="50" y="50" width="80" height="80" rx="16" fill="url(#hero-grad-fill)" opacity="0.12"/>
+                </svg>
+            </div>
             <h1 class="hero-title">
                 Gardez un œil sur
                 <span class="gradient-text">tout.</span>

@@ -23,6 +23,7 @@ window.addEventListener('scroll', () => {
 (function init() {
     // --- États initiaux (GSAP, pas CSS) ---
     gsap.set('.hero-content', { opacity: 0, y: 20 });
+    gsap.set('.hero-pastille-icon', { opacity: 0, scale: 0.6 });
     gsap.set('.hero-visual', { opacity: 0, scale: 0.95 });
     gsap.set('.feature-card', { opacity: 0, y: 30 });
     gsap.set('.step', { opacity: 0, y: 30 });
@@ -32,7 +33,8 @@ window.addEventListener('scroll', () => {
     // --- Hero entrance ---
     const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     heroTl
-        .to('.hero-content', { opacity: 1, y: 0, duration: 0.8, delay: 0.2 })
+        .to('.hero-pastille-icon', { opacity: 1, scale: 1, duration: 0.9, ease: 'back.out(1.4)', delay: 0.1 })
+        .to('.hero-content', { opacity: 1, y: 0, duration: 0.8 }, '-=0.4')
         .to('.hero-visual', { opacity: 1, scale: 1, duration: 0.8 }, '-=0.4');
 
     // --- Hero Pastille animation sequence ---
