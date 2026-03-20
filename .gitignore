@@ -3,3 +3,9 @@ node_modules/
 build/
 site/download/
 *.dmg
+
+# App source (distribué via DMG, pas sur le repo)
+Pastille/
+Resources/
+build.sh
+make-dmg.sh
