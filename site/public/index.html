@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucarne — Picture-in-Picture pour macOS</title>
+    <meta name="description" content="Détachez n'importe quelle zone de votre écran en vignette flottante. Gardez un œil sur vos vidéos, barres de progression et chats pendant que vous travaillez.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                <span class="nav-icon">⊡</span>
+                Lucarne
+            </a>
+            <div class="nav-links">
+                <a href="#fonctionnalites">Fonctionnalités</a>
+                <a href="#comment-ca-marche">Comment ça marche</a>
+                <a href="#telecharger" class="nav-cta">Télécharger</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Picture-in-Picture pour macOS</div>
+            <h1 class="hero-title">
+                Gardez un œil sur
+                <span class="gradient-text">tout.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Détachez n'importe quelle zone de votre écran en vignette flottante.
+                Vidéos, barres de progression, chats — toujours visibles pendant que vous travaillez.
+            </p>
+            <div class="hero-cta">
+                <a href="#telecharger" class="btn btn-primary magnetic-btn">
+                    <span>Télécharger gratuitement</span>
+                    <span class="btn-icon">↓</span>
+                </a>
+                <span class="hero-meta">macOS 13+ · Gratuit · Léger</span>
+            </div>
+        </div>
+
+        <!-- Animation : Lucarne flottante simulée -->
+        <div class="hero-visual">
+            <div class="hero-screen">
+                <div class="screen-toolbar">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="screen-content">
+                    <div class="screen-line w80"></div>
+                    <div class="screen-line w60"></div>
+                    <div class="screen-line w90"></div>
+                    <div class="screen-line w40"></div>
+                    <div class="screen-line w70"></div>
+                </div>
+            </div>
+            <!-- Vignette flottante avec bordure morphing -->
+            <div class="hero-lucarne">
+                <div class="lucarne-border"></div>
+                <div class="lucarne-content">
+                    <div class="lucarne-play">▶</div>
+                </div>
+            </div>
+            <!-- Selection rectangle -->
+            <div class="hero-selection"></div>
+        </div>
+
+        <!-- Glow effects -->
+        <div class="hero-glow glow-1"></div>
+        <div class="hero-glow glow-2"></div>
+    </section>
+
+    <!-- Fonctionnalités -->
+    <section class="features" id="fonctionnalites">
+        <div class="section-header">
+            <span class="section-label">Fonctionnalités</span>
+            <h2 class="section-title">Simple. Puissant. <span class="gradient-text">Discret.</span></h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🖥️</span>
+                <h3>Capture intelligente</h3>
+                <p>Sélectionnez n'importe quelle zone de votre écran. Lucarne identifie automatiquement la fenêtre et s'y accroche.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📌</span>
+                <h3>Toujours au premier plan</h3>
+                <p>La vignette flotte au-dessus de toutes vos fenêtres. Changez d'app, le contenu reste visible.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">👆</span>
+                <h3>Transparente aux clics</h3>
+                <p>Cliquez à travers la Lucarne pour interagir avec ce qui se trouve derrière. Aucune gêne dans votre workflow.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎯</span>
+                <h3>Suit la fenêtre</h3>
+                <p>Capturée sur une vidéo YouTube ? Même si vous changez d'onglet, la Lucarne garde le contenu original.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">⌨️</span>
+                <h3>Raccourci global</h3>
+                <p>⌘ ⌥ L depuis n'importe où. Pas besoin de chercher l'app — elle est toujours prête dans la barre de menu.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🪶</span>
+                <h3>Ultra-léger</h3>
+                <p>~250 Ko, 15 FPS de capture. Aucun impact perceptible sur les performances de votre Mac.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comment ça marche -->
+    <section class="how-it-works" id="comment-ca-marche">
+        <div class="section-header">
+            <span class="section-label">Comment ça marche</span>
+            <h2 class="section-title">Trois gestes. <span class="gradient-text">C'est tout.</span></h2>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-visual">
+                    <div class="step-icon">⌘⌥L</div>
+                </div>
+                <h3>Déclenchez</h3>
+                <p>Appuyez sur ⌘ ⌥ L ou utilisez le menu dans la barre de status.</p>
+            </div>
+
+            <div class="step-connector">
+                <div class="connector-line"></div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-visual">
+                    <div class="step-icon step-selection">
+                        <div class="selection-rect"></div>
+                    </div>
+                </div>
+                <h3>Sélectionnez</h3>
+                <p>Dessinez un rectangle sur la zone que vous voulez détacher. Comme une capture d'écran.</p>
+            </div>
+
+            <div class="step-connector">
+                <div class="connector-line"></div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-visual">
+                    <div class="step-icon step-pip">
+                        <div class="pip-window"></div>
+                    </div>
+                </div>
+                <h3>C'est prêt</h3>
+                <p>Votre Lucarne apparaît. Elle flotte, suit le contenu, et ne gêne jamais votre travail.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Téléchargement -->
+    <section class="download" id="telecharger">
+        <div class="download-card">
+            <div class="download-glow"></div>
+            <div class="download-content">
+                <span class="download-icon">⊡</span>
+                <h2>Télécharger Lucarne</h2>
+                <p>Gratuit. Sans compte. Sans tracking. Juste un .dmg à glisser dans Applications.</p>
+                <a href="/download/Lucarne-1.0.0.dmg" class="btn btn-primary btn-large magnetic-btn">
+                    <span>Télécharger le DMG</span>
+                    <span class="btn-icon">↓</span>
+                </a>
+                <div class="download-meta">
+                    <span>v1.0.0</span>
+                    <span>·</span>
+                    <span>macOS 13+</span>
+                    <span>·</span>
+                    <span>Apple Silicon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support -->
+    <section class="support" id="support">
+        <div class="support-card">
+            <span class="support-icon">🎁</span>
+            <h2>Un petit geste ?</h2>
+            <p>Lucarne est gratuit et le restera. Si l'app vous plaît et que l'envie se fait sentir, vous pouvez jeter un œil à ma liste de souhaits Amazon. Rien d'obligatoire, juste un moyen sympa de soutenir le projet.</p>
+            <a href="https://www.amazon.fr/registries/gl/guest-view/3EQGMKFGHSYAL?ref_=cm_sw_r_cp_ud_ggr-subnav-share_GMMDC9PF5FZS01KSSZ41" target="_blank" rel="noopener noreferrer" class="btn btn-support magnetic-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                <span>Voir ma liste de souhaits</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <span class="footer-logo gradient-text">Lucarne</span>
+            <p>Picture-in-Picture pour macOS</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
