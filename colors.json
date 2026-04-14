@@ -1,0 +1,9 @@
+{
+  "accent": "#E74C3C",
+  "accentDim": "#C0392B",
+  "secondary": "#F06E63",
+  "nscolor": {
+    "accent": { "r": 0.91, "g": 0.30, "b": 0.24 },
+    "accentDim": { "r": 0.75, "g": 0.22, "b": 0.17 }
+  }
+}
